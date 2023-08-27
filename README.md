@@ -1,4 +1,4 @@
-# stock-prediction-dash
+# Stock Prediction Dashboard
 
 An interactive stock dashboard, enabling users to input stock codes, select dates, and visualize trends, indicators, and forecasts.
 
