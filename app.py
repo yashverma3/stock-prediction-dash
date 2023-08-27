@@ -11,7 +11,8 @@ import plotly.express as px
 # model
 from model import prediction
 from sklearn.svm import SVR
-
+from flask import Flask
+from gevent.pywsgi import WSGIServer
 
 def get_stock_price_fig(df):
 
@@ -31,16 +32,15 @@ def get_more(df):
                      title="Exponential Moving Average vs Date")
     fig.update_traces(mode='lines+markers')
     return fig
-
+server = Flask(__name__)
 
 app = dash.Dash(
-    __name__,
+    __name__, server=server,
     external_stylesheets=[
         "https://fonts.googleapis.com/css2?family=Roboto&display=swap"
     ])
 
 
-server = app.server
 # html layout of site
 app.layout = html.Div(
     [
@@ -188,4 +188,6 @@ def forecast(n, n_days, val):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
+    # app.run_server(debug=True)
